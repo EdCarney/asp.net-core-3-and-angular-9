@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --port 44429",
+    "start": "ng serve --port 44451",
     "build": "ng build",
     "build:ssr": "ng run HealthCheck:server:dev",
     "watch": "ng build --watch --configuration development",
