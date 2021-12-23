@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using HealthCheck.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace HealthCheck.Controllers;
 

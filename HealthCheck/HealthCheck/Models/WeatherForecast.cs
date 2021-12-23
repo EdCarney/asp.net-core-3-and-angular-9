@@ -1,4 +1,4 @@
-﻿namespace HealthCheck;
+﻿namespace HealthCheck.Models;
 
 public class WeatherForecast
 {
