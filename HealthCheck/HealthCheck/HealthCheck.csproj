@@ -23,11 +23,13 @@
     <None Remove="Models\" />
     <None Remove="Microsoft.Extensions.Options.ConfigurationExtensions" />
     <None Remove="Controllers\" />
+    <None Remove="ClientApp\src\app\health-check\" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Models\" />
     <Folder Include="Controllers\" />
+    <Folder Include="ClientApp\src\app\health-check\" />
   </ItemGroup>
     <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
     <!-- Ensure Node.js is installed -->
