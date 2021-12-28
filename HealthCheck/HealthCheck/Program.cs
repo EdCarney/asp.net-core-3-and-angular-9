@@ -7,6 +7,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddOptions();
+builder.Services.AddHealthChecks()
+    .AddCheck<ICMPHealthCheck>("ICMP");
 
 var app = builder.Build();
 
@@ -31,8 +33,9 @@ app.UseStaticFiles(new StaticFileOptions()
         context.Context.Response.Headers["Expires"] = staticFilesConfig.Header.Expires;
     }
 });
-app.UseRouting();
 
+app.UseRouting();
+app.UseHealthChecks("/hc");
 
 app.MapControllerRoute(
     name: "default",
