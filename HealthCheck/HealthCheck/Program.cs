@@ -1,4 +1,6 @@
-﻿using HealthCheck.Models;
+﻿using HealthCheck;
+using HealthCheck.Models;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,10 +10,14 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddOptions();
 builder.Services.AddHealthChecks()
-    .AddCheck<ICMPHealthCheck>("ICMP");
+    .AddCheck("ICMP_01", new ICMPHealthCheck("www.ryadel.com", 100))
+    .AddCheck("IMCP_02", new ICMPHealthCheck("www.google.com", 100))
+    .AddCheck("ICMP_03", new ICMPHealthCheck("www.ksicb.com", 100));
 
 var app = builder.Build();
 
+var healthService = app.Services.GetService<IHealthChecksBuilder>();
+var blah = app.Services.GetService<HealthCheckService>();
 // Configure static file options
 
 var staticFilesHeaderConfig = new HeaderConfig();
@@ -35,7 +41,7 @@ app.UseStaticFiles(new StaticFileOptions()
 });
 
 app.UseRouting();
-app.UseHealthChecks("/hc");
+app.UseHealthChecks("/hc", new CustomHealthCheckOptions());
 
 app.MapControllerRoute(
     name: "default",
