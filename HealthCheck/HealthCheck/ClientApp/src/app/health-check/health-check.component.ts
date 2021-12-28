@@ -7,14 +7,14 @@ import { HttpClient } from '@angular/common/http';
   styles: ['./health-check.component.css']
 })
 export class HealthCheckComponent {
-  public result: Result;
+  public result: Result | undefined;
 
   constructor(
     private http: HttpClient,
     @Inject('BASE_URL') private baseUrl: string) { }
 
   ngOnInit() {
-    this.http.get<Result>(baseUrl + 'hc').subscribe(
+    this.http.get<Result>(this.baseUrl + 'hc').subscribe(
       result => this.result = result,
       error => console.error(error)
     );
