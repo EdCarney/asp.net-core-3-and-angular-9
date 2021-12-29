@@ -8,8 +8,13 @@ export function getBaseUrl() {
   return document.getElementsByTagName('base')[0].href;
 }
 
+export function getBackendUrl() {
+  return "http://localhost:5149/";
+}
+
 const providers = [
-  { provide: 'BASE_URL', useFactory: getBaseUrl, deps: [] }
+  { provide: 'BASE_URL', useFactory: getBaseUrl, deps: [] },
+  { provide: 'BASE_BACKEND_URL', useFactory: getBackendUrl, deps: [] }
 ];
 
 if (environment.production) {

@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 @Component({
   selector: 'app-health-check',
   templateUrl: './health-check.component.html',
-  styles: ['./health-check.component.css']
+  styleUrls: ['./health-check.component.css']
 })
 export class HealthCheckComponent {
   public result: Result | undefined;
