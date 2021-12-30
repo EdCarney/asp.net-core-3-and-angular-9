@@ -16,16 +16,16 @@ namespace WorldCities.Models.Data
         /// <summary>
         /// Country name (in UTF8 format)
         /// </summary>
-        public string Name { get; set; }
+        public string Name { get; set; } = string.Empty;
 
         /// <summary>
         /// Country code (in ISO 3166-1 ALPHA-2 format)
         /// </summary>
-        public string ISO2 { get; set; }
+        public string ISO2 { get; set; } = string.Empty;
 
         /// <summary>
         /// Country code (in ISO 3166-1 ALPHA-3 format)
         /// </summary>
-        public string ISO3 { get; set; }
+        public string ISO3 { get; set; } = string.Empty;
     }
 }

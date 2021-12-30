@@ -1,10 +1,17 @@
-﻿using HealthCheck.Models.Configuration;
+﻿using Microsoft.EntityFrameworkCore;
+using WorldCities.Models.Configuration;
+using WorldCities.Models.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.AddControllersWithViews();
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+{
+    var config = builder.Configuration;
+    options.UseSqlServer(config.GetConnectionString("DefaultConnection"));
+});
 
 var app = builder.Build();
 

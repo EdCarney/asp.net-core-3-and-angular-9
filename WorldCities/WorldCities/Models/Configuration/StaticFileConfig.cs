@@ -1,5 +1,5 @@
 ﻿using System;
-namespace HealthCheck.Models.Configuration
+namespace WorldCities.Models.Configuration
 {
     public class StaticFileConfig
     {

@@ -20,12 +20,12 @@ namespace WorldCities.Models.Data
         /// <summary>
         /// City name (in UTF8 format)
         /// </summary>
-        public string Name { get; set; }
+        public string Name { get; set; } = string.Empty;
 
         /// <summary>
         /// City name (in ASCII format)
         /// </summary>
-        public string Name_ASCII { get; set; }
+        public string Name_ASCII { get; set; } = string.Empty;
 
         /// <summary>
         /// City latitude
@@ -46,6 +46,6 @@ namespace WorldCities.Models.Data
         /// <summary>
         /// The parent country related to this city
         /// </summary>
-        public virtual Country Country { get; set; }
+        public virtual Country Country { get; set; } = new();
     }
 }
