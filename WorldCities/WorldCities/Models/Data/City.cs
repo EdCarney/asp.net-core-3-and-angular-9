@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HealthCheck.Models.Data
+namespace WorldCities.Models.Data
 {
     public class City
     {
@@ -42,5 +42,10 @@ namespace HealthCheck.Models.Data
         /// </summary>
         [ForeignKey("Country")]
         public int CountryId { get; set; }
+
+        /// <summary>
+        /// The parent country related to this city
+        /// </summary>
+        public virtual Country Country { get; set; }
     }
 }

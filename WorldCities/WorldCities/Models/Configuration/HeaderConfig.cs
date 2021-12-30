@@ -1,5 +1,5 @@
 ﻿using System;
-namespace HealthCheck.Models
+namespace HealthCheck.Models.Configuration
 {
     public class HeaderConfig
     {

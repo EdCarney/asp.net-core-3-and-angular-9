@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HealthCheck.Models.Data
+namespace WorldCities.Models.Data
 {
     public class Country
     {

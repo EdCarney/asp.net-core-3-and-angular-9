@@ -1,4 +1,4 @@
-﻿using HealthCheck.Models;
+﻿using HealthCheck.Models.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
