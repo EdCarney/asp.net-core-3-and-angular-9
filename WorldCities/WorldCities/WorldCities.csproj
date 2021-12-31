@@ -41,12 +41,14 @@
     <None Remove="Moq" />
     <None Remove="Microsoft.VisualStudio.UnitTesting" />
     <None Remove="Microsoft.VisualStudio.Web.CodeGeneration.Design" />
+    <None Remove="ClientApp\src\app\cities\" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Controllers\" />
     <Folder Include="Source\" />
     <Folder Include="Tests\" />
+    <Folder Include="ClientApp\src\app\cities\" />
   </ItemGroup>
     <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
     <!-- Ensure Node.js is installed -->
