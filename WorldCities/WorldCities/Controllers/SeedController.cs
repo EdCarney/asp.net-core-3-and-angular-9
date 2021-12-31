@@ -133,23 +133,24 @@ namespace WorldCities.Controllers
 
         private void AddCityToDbFromRow(ExcelRange row, IEnumerable<Country> countries)
         {
-            int countryId = GetCountryIdForCity(row, countries);
+            Country country = GetCountryForCity(row, countries);
             var city = new City
             {
                 Name = row.GetCellValue<string>(0, 0),
                 Name_ASCII = row.GetCellValue<string>(0, 1),
                 Lat = row.GetCellValue<decimal>(0, 2),
                 Lon = row.GetCellValue<decimal>(0, 3),
-                CountryId = countryId
+                Country = country,
+                CountryId = country.Id
             };
             applicationDbContext.Citites.Add(city);
         }
 
-        private int GetCountryIdForCity(ExcelRange row, IEnumerable<Country> countries)
+        private Country GetCountryForCity(ExcelRange row, IEnumerable<Country> countries)
         {
             string countryName = row.GetCellValue<string>(0, 4);
             Country country = countries.First(c => c.Name == countryName);
-            return country.Id;
+            return country;
         }
     }
 }
