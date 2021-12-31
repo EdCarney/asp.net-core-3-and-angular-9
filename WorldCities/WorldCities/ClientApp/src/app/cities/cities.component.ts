@@ -8,11 +8,13 @@ import { City } from './city';
   styleUrls: ['./cities.component.css']
 })
 export class CitiesComponent {
-  public cities: City[] | undefined;
+  public displayedColumns: string[] = ['id', 'name', 'lat', 'lon'];
+  public cities: City[];
 
   constructor(
     private http: HttpClient,
     @Inject('BASE_URL') private baseUrl: string) {
+    this.cities = [];
   }
 
   ngOnInit() {
