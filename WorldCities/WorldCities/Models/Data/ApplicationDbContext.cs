@@ -5,7 +5,7 @@ namespace WorldCities.Models.Data
 {
 	public class ApplicationDbContext : DbContext
 	{
-		public DbSet<City> Citites { get; set; }
+		public DbSet<City> Cities { get; set; }
         public DbSet<Country> Countries { get; set; }
 
         public ApplicationDbContext() : base()

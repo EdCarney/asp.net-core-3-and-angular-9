@@ -83,7 +83,7 @@ namespace WorldCities.Controllers
 
         private async void ImportNewCitiesFromRows(IEnumerable<ExcelRange> rows)
         {
-            var existingCities = applicationDbContext.Citites.ToList();
+            var existingCities = applicationDbContext.Cities.ToList();
             var existingCountries = applicationDbContext.Countries.ToList();
 
             foreach (var row in rows)
@@ -143,7 +143,7 @@ namespace WorldCities.Controllers
                 Country = country,
                 CountryId = country.Id
             };
-            applicationDbContext.Citites.Add(city);
+            applicationDbContext.Cities.Add(city);
         }
 
         private Country GetCountryForCity(ExcelRange row, IEnumerable<Country> countries)

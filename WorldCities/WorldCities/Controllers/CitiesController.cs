@@ -23,19 +23,25 @@ namespace WorldCities.Controllers
 
         // GET: api/Cities
         [HttpGet]
-        public async Task<ActionResult<ApiResult<City>>> GetCitites(int pageIndex = 0, int pageSize = 10)
+        public async Task<ActionResult<ApiResult<City>>> GetCitites(
+            int pageIndex = 0,
+            int pageSize = 10,
+            string sortColumn = null,
+            string sortOrder = null)
         {
             return await ApiResult<City>.CreateAsync(
-                _context.Citites,
+                _context.Cities,
                 pageIndex,
-                pageSize);
+                pageSize,
+                sortColumn,
+                sortOrder);
         }
 
         // GET: api/Cities/5
         [HttpGet("{id}")]
         public async Task<ActionResult<City>> GetCity(int id)
         {
-            var city = await _context.Citites.FindAsync(id);
+            var city = await _context.Cities.FindAsync(id);
 
             if (city == null)
             {
@@ -81,7 +87,7 @@ namespace WorldCities.Controllers
         [HttpPost]
         public async Task<ActionResult<City>> PostCity(City city)
         {
-            _context.Citites.Add(city);
+            _context.Cities.Add(city);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetCity", new { id = city.Id }, city);
@@ -91,13 +97,13 @@ namespace WorldCities.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCity(int id)
         {
-            var city = await _context.Citites.FindAsync(id);
+            var city = await _context.Cities.FindAsync(id);
             if (city == null)
             {
                 return NotFound();
             }
 
-            _context.Citites.Remove(city);
+            _context.Cities.Remove(city);
             await _context.SaveChangesAsync();
 
             return NoContent();
@@ -105,7 +111,7 @@ namespace WorldCities.Controllers
 
         private bool CityExists(int id)
         {
-            return _context.Citites.Any(e => e.Id == id);
+            return _context.Cities.Any(e => e.Id == id);
         }
     }
 }
