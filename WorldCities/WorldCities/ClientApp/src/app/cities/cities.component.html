@@ -34,6 +34,7 @@
 </table>
 
 <mat-paginator #paginator
+               (page)="getData($event)"
                [hidden]="!citiesLoaded()"
                [pageSize]="10"
                [pageSizeOptions]="[10,20,50]"
