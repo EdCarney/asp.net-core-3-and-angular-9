@@ -2,9 +2,9 @@
 
 <p>This is a list of all the cities</p>
 
-<p *ngIf="!cities || cities.length == 0">Loading...</p>
+<p *ngIf="!citiesLoaded()">Loading...</p>
 
-<table mat-table [dataSource]="cities" class="mat-elevation-z8" [hidden]="!cities || cities.length == 0">
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z8" [hidden]="!citiesLoaded()">
     <!-- ID Column -->
     <ng-container matColumnDef="id">
         <th mat-header-cell *matHeaderCellDef>ID</th>
@@ -32,6 +32,12 @@
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 </table>
+
+<mat-paginator #paginator
+               [hidden]="!citiesLoaded()"
+               [pageSize]="10"
+               [pageSizeOptions]="[10,20,50]"
+               showFirstLastButtons></mat-paginator>
 
 <!--<table [hidden]="!cities" class="table table-striped" aria-labelledby="tableLabel">
     <thead>
