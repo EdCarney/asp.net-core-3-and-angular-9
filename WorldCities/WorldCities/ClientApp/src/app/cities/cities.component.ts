@@ -36,8 +36,8 @@ export class CitiesComponent {
 
   public loadData(): void {
     let pageEvent: PageEvent = new PageEvent();
-    pageEvent.pageIndex = 0;
-    pageEvent.pageSize = 10;
+    pageEvent.pageIndex = this.defaultPageIndex;
+    pageEvent.pageSize = this.defaultPageSize;
     this.getData(pageEvent);
   }
 
