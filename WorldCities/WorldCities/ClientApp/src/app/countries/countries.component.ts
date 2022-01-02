@@ -1,25 +1,24 @@
-import { Component, Inject, Input, ViewChild } from '@angular/core';
+import { Component, Inject, ViewChild } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
 import { MatSort, SortDirection } from '@angular/material/sort';
-import { MatInput } from '@angular/material/input';
 
-import { City } from './city';
+import { Country } from './country';
 import { ApiResult } from '../apiResult';
 
 @Component({
-  selector: 'app-cities',
-  templateUrl: './cities.component.html',
-  styleUrls: ['./cities.component.css']
+  selector: "app-countries",
+  templateUrl: "./countries.component.html",
+  styleUrls: ["./countries.component.css"]
 })
-export class CitiesComponent {
+export class CountriesComponent {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  public displayedColumns: string[] = ['id', 'name', 'lat', 'lon'];
-  public cities: City[];
-  public dataSource: MatTableDataSource<City>;
+  public displayedColumns: string[] = ['id', 'name', 'iso2', 'iso3'];
+  private countries: Country[];
+  public dataSource: MatTableDataSource<Country>;
 
   private readonly defaultPageIndex: number = 0;
   private readonly defaultPageSize: number = 10;
@@ -31,8 +30,7 @@ export class CitiesComponent {
 
   constructor(
     private http: HttpClient,
-    @Inject('BASE_URL') private baseUrl: string) {
-  }
+    @Inject('BASE_URL') private baseUrl: string) { }
 
   ngOnInit() {
     this.loadData();
@@ -52,22 +50,22 @@ export class CitiesComponent {
   }
 
   public getData(event: PageEvent): void {
-    let url: string = this.baseUrl + "api/cities";
+    let url: string = this.baseUrl + "api/countries";
     let params: HttpParams = this.getHttpParams(event);
 
-    this.http.get<ApiResult<City>>(url, { params })
+    this.http.get<ApiResult<Country>>(url, { params })
       .subscribe(
         result => {
           this.paginator.length = result.totalCount;
           this.paginator.pageIndex = result.pageIndex;
           this.paginator.pageSize = result.pageSize;
-          this.cities = result.data;
-          this.dataSource = new MatTableDataSource(this.cities);
+          this.countries = result.data;
+          this.dataSource = new MatTableDataSource(this.countries);
           this.decrementFilterCount();
         },
         error => {
           console.error(error);
-          this.decrementFilterCount()
+          this.decrementFilterCount();
         }
     );
   }
@@ -90,8 +88,8 @@ export class CitiesComponent {
     return params;
   }
 
-  private citiesLoaded(): boolean {
-    if (this.cities)
+  private countriesLoaded(): boolean {
+    if (this.countries)
       return true;
     return false;
   }
@@ -105,6 +103,6 @@ export class CitiesComponent {
   }
 
   public showLoadingIcon(): boolean {
-    return !this.citiesLoaded() || this.filteringEventCount > 0;
+    return !this.countriesLoaded() || this.filteringEventCount > 0;
   }
 }

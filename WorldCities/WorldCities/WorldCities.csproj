@@ -43,6 +43,7 @@
     <None Remove="Microsoft.VisualStudio.Web.CodeGeneration.Design" />
     <None Remove="ClientApp\src\app\cities\" />
     <None Remove="System.Linq.Dynamic.Core" />
+    <None Remove="ClientApp\src\app\countries\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -50,6 +51,7 @@
     <Folder Include="Source\" />
     <Folder Include="Tests\" />
     <Folder Include="ClientApp\src\app\cities\" />
+    <Folder Include="ClientApp\src\app\countries\" />
   </ItemGroup>
     <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
     <!-- Ensure Node.js is installed -->
