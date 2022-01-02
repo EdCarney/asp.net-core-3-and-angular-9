@@ -2,9 +2,15 @@
 
 <p>This is a list of all the cities</p>
 
-<p *ngIf="!citiesLoaded()">Loading...</p>
+<!-- Filter -->
+<mat-form-field>
+    <input matInput (keyup)="loadData($event)"
+           placeholder="Filter by name (or part of it)..." />
+</mat-form-field>
 
-<table mat-table [dataSource]="dataSource" class="mat-elevation-z8" [hidden]="!citiesLoaded()"
+<p *ngIf="showLoadingIcon()">Loading...</p>
+
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z8" [hidden]="showLoadingIcon()"
        matSort (matSortChange)="loadData()" matSortActive="{{ defaultSortColumn }}" [matSortDirection]="defaultSortOrder">
 
     <!-- ID Column -->
@@ -36,7 +42,7 @@
 </table>
 
 <mat-paginator (page)="getData($event)"
-               [hidden]="!citiesLoaded()"
+               [hidden]="showLoadingIcon()"
                [pageSize]="10"
                [pageSizeOptions]="[10,20,50]"
                showFirstLastButtons></mat-paginator>
