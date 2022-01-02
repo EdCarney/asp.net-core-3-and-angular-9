@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace WorldCities.Models.Data
@@ -21,11 +22,13 @@ namespace WorldCities.Models.Data
         /// <summary>
         /// Country code (in ISO 3166-1 ALPHA-2 format)
         /// </summary>
+        [JsonPropertyName("iso2")]
         public string ISO2 { get; set; } = string.Empty;
 
         /// <summary>
         /// Country code (in ISO 3166-1 ALPHA-3 format)
         /// </summary>
+        [JsonPropertyName("iso3")]
         public string ISO3 { get; set; } = string.Empty;
     }
 }
