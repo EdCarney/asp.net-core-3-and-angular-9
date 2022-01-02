@@ -21,6 +21,10 @@ namespace WorldCities.Models.Data
 
         public string SortOrder { get; private set; }
 
+        public string FilterColumn { get; private set; }
+
+        public string FilterQuery { get; private set; }
+
         public bool HasPreviousPage => PageIndex > 0;
 
         public bool HasNextPage => PageIndex + 1 < TotalPages;
@@ -30,14 +34,19 @@ namespace WorldCities.Models.Data
             int pageIndex,
             int pageSize,
             string sortColumn = null,
-            string sortOrder = null)
+            string sortOrder = null,
+            string filterColumn = null,
+            string filterQuery = null)
         {
-            
-            if (NeedToSortSource(sortColumn))
+            if (IsValidProperty(filterColumn))
+            {
+                source = GetFilteredSource(source, filterColumn, filterQuery);
+            }
+
+            if (IsValidProperty(sortColumn))
             {
                 source = GetSortedSource(source, sortColumn, sortOrder);
             }
-
 
             List<T> data = await source
                 .Skip(pageIndex * pageSize)
@@ -46,14 +55,16 @@ namespace WorldCities.Models.Data
 
             int count = await source.CountAsync();
 
-            return new ApiResult<T>(data, count, pageIndex, pageSize, sortColumn, sortOrder);
+            return new ApiResult<T>(data, count, pageIndex, pageSize, sortColumn, sortOrder, filterColumn, filterQuery);
         }
 
-        private static bool NeedToSortSource(string sortColumn)
-            => !string.IsNullOrEmpty(sortColumn) && IsValidSortProperty(sortColumn);
-
-        private static bool IsValidSortProperty(string sortColumn)
+        private static bool IsValidProperty(string sortColumn)
         {
+            if (string.IsNullOrEmpty(sortColumn))
+            {
+                return false;
+            }
+
             var prop = typeof(T).GetProperty(
                 sortColumn,
                 BindingFlags.IgnoreCase |
@@ -68,6 +79,11 @@ namespace WorldCities.Models.Data
             return true;
         }
 
+        private static IQueryable<T> GetFilteredSource(IQueryable<T> source, string filterColumn, string filterQuery)
+        {
+            return source.Where($"{filterColumn}.Contains(@0)", filterQuery);
+        }
+
         private static IQueryable<T> GetSortedSource(IQueryable<T> source, string sortColumn, string sortOrder)
         {
             sortOrder = !string.IsNullOrEmpty(sortOrder) && sortOrder.Equals("ASC", StringComparison.OrdinalIgnoreCase)
@@ -77,13 +93,15 @@ namespace WorldCities.Models.Data
             return source.OrderBy($"{sortColumn} {sortOrder}");
         }
 
-        private ApiResult(List<T> data, int count, int pageIndex, int pageSize, string sortColumn, string sortOrder)
+        private ApiResult(List<T> data, int count, int pageIndex, int pageSize, string sortColumn, string sortOrder, string filterColumn, string filterQuery)
 		{
             Data = data;
             PageIndex = pageIndex;
             PageSize = pageSize;
             SortColumn = sortColumn;
             SortOrder = sortOrder;
+            FilterColumn = filterColumn;
+            FilterQuery = filterQuery;
             TotalCount = count;
             TotalPages = (int)Math.Ceiling((double)TotalCount / (double)PageSize);
 		}
