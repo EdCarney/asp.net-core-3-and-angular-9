@@ -10,7 +10,8 @@ import { HomeComponent } from './home/home.component';
 import { CitiesComponent } from './cities/cities.component';
 import { CountriesComponent } from './countries/countries.component';
 import { AngularMaterialModule } from './angular-material.module';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
       { path: 'countries', component: CountriesComponent }
     ]),
     BrowserAnimationsModule,
-    AngularMaterialModule
+    AngularMaterialModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
