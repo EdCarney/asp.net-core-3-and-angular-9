@@ -20,6 +20,9 @@ export class CityEditComponent {
   // data model to update
   public city: City;
 
+  // the city ID; null if creating new
+  public id?: number;
+
   constructor(
     private activatedRoute: ActivatedRoute,
     private router: Router,
@@ -37,18 +40,26 @@ export class CityEditComponent {
 
   public loadData() {
     // get ID from ID parameter in URL
-    let id = +this.activatedRoute.snapshot.paramMap.get("id")!;
+    this.id = +this.activatedRoute.snapshot.paramMap.get("id")!;
 
-    // fetch city from server
-    let url = this.baseUrl + "api/cities/" + id;
-    this.http.get<City>(url)
-      .subscribe(result => {
-        this.city = result;
-        this.title = "Edit - " + this.city.name;
-        this.form.patchValue(this.city);
-      }, error => {
-        console.error(error);
-    });
+    console.log(this.id);
+
+    if (this.creatingNewCity()) {
+      this.title = "Creating New City";
+      this.city = <City>{};
+    }
+    else {
+      // fetch city from server
+      let url = this.baseUrl + "api/cities/" + this.id;
+      this.http.get<City>(url)
+        .subscribe(result => {
+          this.city = result;
+          this.title = "Edit - " + this.city.name;
+          this.form.patchValue(this.city);
+        }, error => {
+          console.error(error);
+        });
+    }
   }
 
   public onSubmit() {
@@ -58,16 +69,42 @@ export class CityEditComponent {
     city.lat = this.form.get("lat")?.value;
     city.lon = this.form.get("lon")?.value;
 
-    // update city
-    let url = this.baseUrl + "api/cities/" + city.id;
-    this.http.put<City>(url, city)
-      .subscribe(result => {
-        console.log("City " + city.name + " has been updated");
-
-        // go back to cities view
-        this.router.navigate(['/cities']);
-      }, error => {
+    if (this.creatingNewCity()) {
+      let url = this.baseUrl + "api/cities";
+      this.http.post<City>(url, city)
+        .subscribe(result => {
+          console.log("City " + city.name + " has been created");
+          this.navigateToMainCityView();
+        }, error => {
           console.error(error);
-      })
+        });
+    }
+    else {
+      // updating city
+      let url = this.baseUrl + "api/cities/" + city.id;
+      this.http.put<City>(url, city)
+        .subscribe(result => {
+          console.log("City " + city.name + " has been updated");
+          this.navigateToMainCityView();
+        }, error => {
+          console.error(error);
+        });
+    }
+  }
+
+  private creatingNewCity(): boolean {
+    if (this.id)
+      return false;
+    return true;
+  }
+
+  private navigateToMainCityView(): void {
+    this.router.navigate(['/cities']);
+  }
+
+  public showLoadingIcon(): boolean {
+    if (!this.city && this.id)
+      return true;
+    return false;
   }
 }

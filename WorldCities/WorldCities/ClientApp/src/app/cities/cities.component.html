@@ -8,6 +8,12 @@
            placeholder="Filter by name (or part of it)..." />
 </mat-form-field>
 
+<div class="commands text-right" *ngIf="cities">
+  <button type="button" class="btn btn-success" [routerLink]="['/city']">
+    Add New City
+  </button>
+</div>
+
 <p *ngIf="showLoadingIcon()">Loading...</p>
 
 <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" [hidden]="showLoadingIcon()"
