@@ -11,7 +11,7 @@
       <br />
       <input type="text" id="name" formControlName="name" required placeholder="Name..." class="form-control" />
 
-      <div *ngIf="formFieldIsInvalid('name')">
+      <div *ngIf="formFieldIsInvalid('name')" class="text-danger">
         <div *ngIf="formFieldHasRequiredError('name')">
           Name is required
         </div>
@@ -24,7 +24,7 @@
       <br />
       <input type="text" id="lat" formControlName="lat" required placeholder="Latitude..." class="form-control" />
 
-      <div *ngIf="formFieldIsInvalid('lat')">
+      <div *ngIf="formFieldIsInvalid('lat')" class="text-danger">
         <div *ngIf="formFieldHasRequiredError('lat')">
           Latitude is required
         </div>
@@ -37,7 +37,7 @@
       <br />
       <input type="text" id="lon" formControlName="lon" required placeholder="Longitude..." class="form-control" />
 
-      <div *ngIf="formFieldIsInvalid('lon')">
+      <div *ngIf="formFieldIsInvalid('lon')" class="text-danger">
         <div *ngIf="formFieldHasRequiredError('lon')">
           Longitude is required
         </div>
@@ -56,8 +56,7 @@
           </mat-option>
         </mat-select>
       </mat-form-field>
-
-      <div *ngIf="formFieldIsInvalid('countryId')">
+      <div *ngIf="formFieldIsInvalid('countryId')" class="text-danger">
         <div *ngIf="formFieldHasRequiredError('countryId')">
           Please select a country
         </div>
