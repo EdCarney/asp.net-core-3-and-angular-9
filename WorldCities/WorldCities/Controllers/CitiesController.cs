@@ -113,6 +113,25 @@ namespace WorldCities.Controllers
             return NoContent();
         }
 
+        [HttpPost]
+        [Route("checkAlreadyExists")]
+        public async Task<ActionResult<bool>> CheckAlreadyExists(City city)
+        {
+            if (city is null)
+            {
+                throw new InvalidDataException("City cannot be null");
+            }
+
+            decimal delta = 0.001M;
+            return await _context.Cities.AnyAsync(c =>
+                c.Name == city.Name &&
+                Math.Abs(c.Lat - city.Lat) < delta &&
+                Math.Abs(c.Lon - city.Lon) < delta &&
+                c.CountryId == city.CountryId &&
+                c.Id != city.Id
+            );
+        }
+
         private bool CityExists(int id)
         {
             return _context.Cities.Any(e => e.Id == id);
