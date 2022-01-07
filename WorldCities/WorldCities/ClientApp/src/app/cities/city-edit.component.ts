@@ -1,7 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 import { Country } from '../countries/country';
 import { City } from './city';
@@ -36,10 +36,10 @@ export class CityEditComponent {
 
   public ngOnInit() {
     this.form = new FormGroup({
-      name: new FormControl(),
-      lat: new FormControl(),
-      lon: new FormControl(),
-      countryId: new FormControl()
+      name: new FormControl('', Validators.required),
+      lat: new FormControl('', Validators.required),
+      lon: new FormControl('', Validators.required),
+      countryId: new FormControl('', Validators.required)
     });
     this.loadCity();
     this.loadCountries();
@@ -127,6 +127,21 @@ export class CityEditComponent {
 
   public showLoadingIcon(): boolean {
     if (!this.city && this.id)
+      return true;
+    return false;
+  }
+
+  public formFieldIsInvalid(fieldName: string): boolean {
+      let field = this.form.get(fieldName);
+      if (field?.invalid && (field?.dirty || field?.touched)) {
+        return true;
+      }
+      return false;
+  }
+
+  public formFieldHasRequiredError(fieldName: string): boolean {
+    let field = this.form.get(fieldName);
+    if (field?.errors?.required)
       return true;
     return false;
   }
