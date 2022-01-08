@@ -17,7 +17,7 @@ export class CountriesComponent {
   @ViewChild(MatSort) sort: MatSort;
 
   public displayedColumns: string[] = ['id', 'name', 'iso2', 'iso3'];
-  private countries: Country[];
+  public countries: Country[];
   public dataSource: MatTableDataSource<Country>;
 
   private readonly defaultPageIndex: number = 0;

@@ -8,6 +8,12 @@
            placeholder="Filter by name (or part of it)..." />
 </mat-form-field>
 
+<div class="commands text-right" *ngIf="countries">
+  <button type="button" class="btn btn-success" [routerLink]="['/country']">
+    Add New Country
+  </button>
+</div>
+
 <p *ngIf="showLoadingIcon()">Loading...</p>
 
 <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" [hidden]="showLoadingIcon()"
@@ -16,7 +22,9 @@
     <!-- ID Column -->
     <ng-container matColumnDef="id">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
-        <td mat-cell *matCellDef="let country">{{ country.id }}</td>
+        <td mat-cell *matCellDef="let country">
+          <a [routerLink]="['/country', country.id]">{{ country.id }}</a>
+        </td>
     </ng-container>
 
     <!-- Name Column -->

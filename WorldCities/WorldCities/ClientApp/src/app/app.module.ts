@@ -10,6 +10,7 @@ import { HomeComponent } from './home/home.component';
 import { CitiesComponent } from './cities/cities.component';
 import { CityEditComponent } from './cities/city-edit.component';
 import { CountriesComponent } from './countries/countries.component';
+import { CountryEditComponent } from './countries/country-edit.component';
 import { AngularMaterialModule } from './angular-material.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -21,7 +22,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     HomeComponent,
     CitiesComponent,
     CityEditComponent,
-    CountriesComponent
+    CountriesComponent,
+    CountryEditComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -32,7 +34,9 @@ import { ReactiveFormsModule } from '@angular/forms';
       { path: 'cities', component: CitiesComponent },
       { path: 'city/:id', component: CityEditComponent },
       { path: 'city', component: CityEditComponent },
-      { path: 'countries', component: CountriesComponent }
+      { path: 'countries', component: CountriesComponent },
+      { path: 'country/:id', component: CountryEditComponent },
+      { path: 'country', component: CountryEditComponent }
     ]),
     BrowserAnimationsModule,
     AngularMaterialModule,
