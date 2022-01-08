@@ -8,7 +8,6 @@ import { map } from 'rxjs/operators';
 import { Country } from '../countries/country';
 import { City } from './city';
 import { ApiResult } from '../apiResult';
-import { ThrowStmt } from '@angular/compiler';
 
 @Component({
   selector: "app-city-edit",
@@ -69,8 +68,6 @@ export class CityEditComponent {
   public loadCity(): void {
     // get ID from ID parameter in URL
     this.id = +this.activatedRoute.snapshot.paramMap.get("id")!;
-
-    console.log(this.id);
 
     if (this.creatingNewCity()) {
       this.title = "Creating New City";
