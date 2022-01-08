@@ -113,6 +113,26 @@ namespace WorldCities.Controllers
             return NoContent();
         }
 
+        [HttpPost]
+        [Route("checkFieldAlreadyExists")]
+        public async Task<ActionResult<bool>> CheckFieldAlreadyExists(
+            int CountryId,
+            string FieldName,
+            string FieldValue)
+        {
+            switch (FieldName)
+            {
+                case "name":
+                    return await _context.Countries.AnyAsync(c => c.Name == FieldValue && c.Id != CountryId);
+                case "iso2":
+                    return await _context.Countries.AnyAsync(c => c.ISO2 == FieldValue && c.Id != CountryId);
+                case "iso3":
+                    return await _context.Countries.AnyAsync(c => c.ISO3 == FieldValue && c.Id != CountryId);
+                default:
+                    throw new InvalidDataException("Trying to check nonexistent field");
+            }
+        }
+
         private bool CountryExists(int id)
         {
             return _context.Countries.Any(e => e.Id == id);
