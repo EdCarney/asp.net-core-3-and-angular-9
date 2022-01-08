@@ -1,0 +1,70 @@
+<div class="country-edit">
+  <h1>{{ title }}</h1>
+
+  <p *ngIf="showLoadingIcon()"><em>Loading...</em></p>
+
+  <div class="form" [formGroup]="form" (ngSubmit)="onSubmit()">
+
+    <!-- Name Field -->
+    <div class="form-group">
+      <label id="nameLabel" for="name">Country Name:</label>
+      <br />
+      <input type="text" id="name" formControlName="name" required placeholder="Name..." class="form-control" />
+
+      <div *ngIf="formFieldIsInvalid('name')" class="text-danger small">
+        <div *ngIf="formFieldHasRequiredError('name')">
+          {{ formFieldHasRequiredError('name') }}
+        </div>
+        <div *ngIf="formFieldAlreadyExists('name')">
+          Name already exists; please choose another.
+        </div>
+      </div>
+    </div>
+
+    <!-- ISO2 Field -->
+    <div class="form-group">
+      <label id="iso2Label" for="iso2">ISO 3166-1 ALPHA-2 Country Code:</label>
+      <br />
+      <input type="text" id="iso2" formControlName="iso2" required placeholder="2 letter country code..." class="form-control" />
+
+      <div *ngIf="formFieldIsInvalid('iso2')" class="text-danger small">
+        <div *ngIf="formFieldHasRequiredError('iso2')">
+          {{ formFieldHasRequiredError('iso2') }}
+        </div>
+        <div *ngIf="formFieldAlreadyExists('iso2')">
+          {{ formFieldAlreadyExists('iso2') }}
+        </div>
+        <div *ngIf="formFieldDoesNotMatchPattern('iso2', 'two characters only') as errorMsg">
+          {{ errorMsg }}
+        </div>
+      </div>
+    </div>
+
+    <!-- ISO3 Field -->
+    <div class="form-group">
+      <label id="iso3Label" for="iso3">ISO 3166-1 ALPHA-3 Country Code:</label>
+      <br />
+      <input type="text" id="iso3" formControlName="iso3" required placeholder="3 letter country code..." class="form-control" />
+
+      <div *ngIf="formFieldIsInvalid('iso3')" class="text-danger small">
+        <div *ngIf="formFieldHasRequiredError('iso3')">
+          {{ formFieldHasRequiredError('iso3') }}
+        </div>
+        <div *ngIf="formFieldAlreadyExists('iso3')">
+          {{ formFieldAlreadyExists('iso3') }}
+        </div>
+        <div *ngIf="formFieldDoesNotMatchPattern('iso3')">
+          {{ formFieldDoesNotMatchPattern('iso3', 'three characters only') }}
+        </div>
+      </div>
+    </div>
+
+
+    <br />
+    <div class="form-group commands">
+      <button type="submit" [disabled]="form.invalid" (click)="onSubmit()" class="btn btn-success" [textContent]="id ? 'Submit' : 'Create'"></button>
+      <button type="submit" [routerLink]="['/countries']" class="btn btn-danger">Cancel</button>
+    </div>
+
+  </div>
+</div>
