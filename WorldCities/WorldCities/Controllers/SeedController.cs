@@ -27,7 +27,7 @@ namespace WorldCities.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Import(string filePath = null)
+        public async Task<IActionResult> Import(string? filePath = null)
         {
             filePath = string.IsNullOrEmpty(filePath) ? DefaultSourcePath : filePath;
             using (var stream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
@@ -38,8 +38,8 @@ namespace WorldCities.Controllers
                         ?? throw new InvalidDataException("No worksheets in source excel data file");
 
                     var cells = GetRowsWithoutHeader(firstSheet);
-                    ImportNewCountriesFromRows(cells);
-                    ImportNewCitiesFromRows(cells);
+                    await ImportNewCountriesFromRows(cells);
+                    await ImportNewCitiesFromRows(cells);
                 }
             }
 
@@ -61,7 +61,7 @@ namespace WorldCities.Controllers
             return rows;
         }
 
-        private async void ImportNewCountriesFromRows(IEnumerable<ExcelRange> rows)
+        private async Task ImportNewCountriesFromRows(IEnumerable<ExcelRange> rows)
         {
             var existingCountries = applicationDbContext.Countries.ToList();
 
@@ -78,10 +78,10 @@ namespace WorldCities.Controllers
                 }
             }
             
-            applicationDbContext.SaveChanges();
+            await applicationDbContext.SaveChangesAsync();
         }
 
-        private async void ImportNewCitiesFromRows(IEnumerable<ExcelRange> rows)
+        private async Task ImportNewCitiesFromRows(IEnumerable<ExcelRange> rows)
         {
             var existingCities = applicationDbContext.Cities.ToList();
             var existingCountries = applicationDbContext.Countries.ToList();
@@ -94,7 +94,7 @@ namespace WorldCities.Controllers
                 }
             }
 
-            applicationDbContext.SaveChanges();
+            await applicationDbContext.SaveChangesAsync();
         }
 
         private bool CountryPresentInDb(ExcelRange row, List<Country> existingCountries)
