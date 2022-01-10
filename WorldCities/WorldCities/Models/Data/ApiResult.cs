@@ -33,17 +33,21 @@ namespace WorldCities.Models.Data
             IQueryable<T> source,
             int pageIndex,
             int pageSize,
-            string sortColumn = null,
-            string sortOrder = null,
-            string filterColumn = null,
-            string filterQuery = null)
+            string? sortColumn = null,
+            string? sortOrder = null,
+            string? filterColumn = null,
+            string? filterQuery = null)
         {
-            if (IsValidProperty(filterColumn))
+            if (!string.IsNullOrEmpty(filterColumn) &&
+                !string.IsNullOrEmpty(filterQuery) &&
+                IsValidProperty(filterColumn))
             {
                 source = GetFilteredSource(source, filterColumn, filterQuery);
             }
 
-            if (IsValidProperty(sortColumn))
+            if (!string.IsNullOrEmpty(sortColumn) &&
+                !string.IsNullOrEmpty(sortOrder) &&
+                IsValidProperty(sortColumn))
             {
                 source = GetSortedSource(source, sortColumn, sortOrder);
             }
@@ -55,7 +59,9 @@ namespace WorldCities.Models.Data
 
             int count = await source.CountAsync();
 
-            return new ApiResult<T>(data, count, pageIndex, pageSize, sortColumn, sortOrder, filterColumn, filterQuery);
+            return new ApiResult<T>(data, count, pageIndex, pageSize,
+                sortColumn ?? string.Empty, sortOrder ?? string.Empty,
+                filterColumn ?? string.Empty, filterQuery ?? string.Empty);
         }
 
         private static bool IsValidProperty(string sortColumn)

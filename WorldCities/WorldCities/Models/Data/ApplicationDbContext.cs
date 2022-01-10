@@ -10,10 +10,18 @@ namespace WorldCities.Models.Data
 
         public ApplicationDbContext() : base()
         {
+            if (Cities is null || Countries is null)
+            {
+                throw new ArgumentNullException("DbSets must be initialized");
+            }   
         }
 
         public ApplicationDbContext(DbContextOptions options) : base(options)
         {
+            if (Cities is null || Countries is null)
+            {
+                throw new ArgumentNullException("DbSets must be initialized");
+            }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
