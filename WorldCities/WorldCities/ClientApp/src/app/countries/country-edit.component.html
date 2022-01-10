@@ -12,11 +12,11 @@
       <input type="text" id="name" formControlName="name" required placeholder="Name..." class="form-control" />
 
       <div *ngIf="formFieldHasError('name')" class="text-danger small">
-        <div *ngIf="formFieldHasRequiredError('name')">
-          {{ formFieldHasRequiredError('name') }}
+        <div *ngIf="formFieldHasRequiredError('name') as errorMsg">
+          {{ errorMsg }}
         </div>
-        <div *ngIf="formFieldAlreadyExists('name')">
-          Name already exists; please choose another.
+        <div *ngIf="formFieldAlreadyExists('name') as errorMsg">
+          {{ errorMsg }}
         </div>
       </div>
     </div>
@@ -28,11 +28,11 @@
       <input type="text" id="iso2" formControlName="iso2" required placeholder="2 letter country code..." class="form-control" />
 
       <div *ngIf="formFieldHasError('iso2')" class="text-danger small">
-        <div *ngIf="formFieldHasRequiredError('iso2')">
-          {{ formFieldHasRequiredError('iso2') }}
+        <div *ngIf="formFieldHasRequiredError('iso2') as errorMsg">
+          {{ errorMsg }}
         </div>
-        <div *ngIf="formFieldAlreadyExists('iso2')">
-          {{ formFieldAlreadyExists('iso2') }}
+        <div *ngIf="formFieldAlreadyExists('iso2') as errorMsg">
+          {{ errorMsg }}
         </div>
         <div *ngIf="formFieldDoesNotMatchPattern('iso2', 'two characters only') as errorMsg">
           {{ errorMsg }}
@@ -47,14 +47,14 @@
       <input type="text" id="iso3" formControlName="iso3" required placeholder="3 letter country code..." class="form-control" />
 
       <div *ngIf="formFieldHasError('iso3')" class="text-danger small">
-        <div *ngIf="formFieldHasRequiredError('iso3')">
-          {{ formFieldHasRequiredError('iso3') }}
+        <div *ngIf="formFieldHasRequiredError('iso3') as errorMsg">
+          {{ errorMsg }}
         </div>
-        <div *ngIf="formFieldAlreadyExists('iso3')">
-          {{ formFieldAlreadyExists('iso3') }}
+        <div *ngIf="formFieldAlreadyExists('iso3') as errorMsg">
+          {{ errorMsg }}
         </div>
-        <div *ngIf="formFieldDoesNotMatchPattern('iso3')">
-          {{ formFieldDoesNotMatchPattern('iso3', 'three characters only') }}
+        <div *ngIf="formFieldDoesNotMatchPattern('iso3', 'three characters only') as errorMsg">
+          {{ errorMsg }}
         </div>
       </div>
     </div>

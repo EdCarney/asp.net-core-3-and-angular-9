@@ -137,38 +137,11 @@ export class CountryEditComponent extends BaseFormEditComponent {
     return false;
   }
 
-  public formFieldHasRequiredError(fieldName: string): string | null {
-    let field = this.getControl(fieldName);
-    if (field?.errors?.required) {
-      return this.getFieldLabel(fieldName) + " is required";
-    }
-    return null;
-  }
-
   public formFieldAlreadyExists(fieldName: string): string | null {
     let field = this.getControl(fieldName);
     if (field?.errors?.isDuplicateField) {
       return this.getFieldLabel(fieldName) + " already exists; please choose another";
     }
     return null;
-  }
-
-  public formFieldDoesNotMatchPattern(fieldName: string, patternDescription?: string): string | null {
-    let field = this.getControl(fieldName);
-    if (field?.errors?.pattern) {
-      return this.getFieldLabel(fieldName) + " does not match required pattern" + (patternDescription ? ": " + patternDescription : "");
-    }
-    return null;
-  }
-
-  private getFieldLabel(fieldName: string): string {
-    let label = document.getElementById(fieldName + "Label")?.innerHTML;
-    if (label) {
-      label = label.endsWith(":")
-        ? label?.substring(0, label.length - 1)
-        : label;
-        return label;
-    }
-    return fieldName;
   }
 }

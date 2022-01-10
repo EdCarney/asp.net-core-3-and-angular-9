@@ -37,8 +37,12 @@ export class CityEditComponent extends BaseFormEditComponent {
   public ngOnInit() {
     this.form = new FormGroup({
       name: new FormControl('', Validators.required),
-      lat: new FormControl('', Validators.required),
-      lon: new FormControl('', Validators.required),
+      lat: new FormControl('', [
+        Validators.required,
+        Validators.pattern('^[-]?[0-9]+(\.[0-9]{1,4})?')]),
+      lon: new FormControl('', [
+        Validators.required,
+        Validators.pattern('^[-]?[0-9]+(\.[0-9]{1,4})?')]),
       countryId: new FormControl('', Validators.required)
     }, null, this.isDuplicateCity());
     this.loadCity();
@@ -143,13 +147,6 @@ export class CityEditComponent extends BaseFormEditComponent {
 
   public showLoadingIcon(): boolean {
     if (!this.city && this.id)
-      return true;
-    return false;
-  }
-
-  public formFieldHasRequiredError(fieldName: string): boolean {
-    let field = this.getControl(fieldName);
-    if (field?.errors?.required)
       return true;
     return false;
   }
