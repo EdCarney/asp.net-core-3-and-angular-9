@@ -11,7 +11,7 @@
       <br />
       <input type="text" id="name" formControlName="name" required placeholder="Name..." class="form-control" />
 
-      <div *ngIf="formFieldIsInvalid('name')" class="text-danger small">
+      <div *ngIf="formFieldHasError('name')" class="text-danger small">
         <div *ngIf="formFieldHasRequiredError('name')">
           {{ formFieldHasRequiredError('name') }}
         </div>
@@ -27,7 +27,7 @@
       <br />
       <input type="text" id="iso2" formControlName="iso2" required placeholder="2 letter country code..." class="form-control" />
 
-      <div *ngIf="formFieldIsInvalid('iso2')" class="text-danger small">
+      <div *ngIf="formFieldHasError('iso2')" class="text-danger small">
         <div *ngIf="formFieldHasRequiredError('iso2')">
           {{ formFieldHasRequiredError('iso2') }}
         </div>
@@ -46,7 +46,7 @@
       <br />
       <input type="text" id="iso3" formControlName="iso3" required placeholder="3 letter country code..." class="form-control" />
 
-      <div *ngIf="formFieldIsInvalid('iso3')" class="text-danger small">
+      <div *ngIf="formFieldHasError('iso3')" class="text-danger small">
         <div *ngIf="formFieldHasRequiredError('iso3')">
           {{ formFieldHasRequiredError('iso3') }}
         </div>

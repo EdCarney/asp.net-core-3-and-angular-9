@@ -4,6 +4,7 @@ import { AbstractControl, AsyncValidatorFn, FormBuilder, FormGroup, Validators }
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { BaseFormEditComponent } from '../base.form-edit.component';
 
 import { Country } from './country';
 
@@ -12,12 +13,7 @@ import { Country } from './country';
   templateUrl: "./country-edit.component.html",
   styleUrls: ["./country-edit.component.css"]
 })
-export class CountryEditComponent {
-  // view title
-  public title: string;
-
-  // form model
-  public form: FormGroup;
+export class CountryEditComponent extends BaseFormEditComponent {
 
   // data model to update
   public country: Country;
@@ -30,7 +26,9 @@ export class CountryEditComponent {
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private http: HttpClient,
-    @Inject("BASE_URL") private baseUrl: string) { }
+    @Inject("BASE_URL") private baseUrl: string) {
+      super();
+    }
 
   public ngOnInit() {
     this.form = this.formBuilder.group({
@@ -139,16 +137,8 @@ export class CountryEditComponent {
     return false;
   }
 
-  public formFieldIsInvalid(fieldName: string): boolean {
-    let field = this.form.get(fieldName);
-    if (field?.invalid && (field?.dirty || field?.touched)) {
-      return true;
-    }
-    return false;
-  }
-
   public formFieldHasRequiredError(fieldName: string): string | null {
-    let field = this.form.get(fieldName);
+    let field = this.getControl(fieldName);
     if (field?.errors?.required) {
       return this.getFieldLabel(fieldName) + " is required";
     }
@@ -156,7 +146,7 @@ export class CountryEditComponent {
   }
 
   public formFieldAlreadyExists(fieldName: string): string | null {
-    let field = this.form.get(fieldName);
+    let field = this.getControl(fieldName);
     if (field?.errors?.isDuplicateField) {
       return this.getFieldLabel(fieldName) + " already exists; please choose another";
     }
@@ -164,7 +154,7 @@ export class CountryEditComponent {
   }
 
   public formFieldDoesNotMatchPattern(fieldName: string, patternDescription?: string): string | null {
-    let field = this.form.get(fieldName);
+    let field = this.getControl(fieldName);
     if (field?.errors?.pattern) {
       return this.getFieldLabel(fieldName) + " does not match required pattern" + (patternDescription ? ": " + patternDescription : "");
     }

@@ -8,18 +8,14 @@ import { map } from 'rxjs/operators';
 import { Country } from '../countries/country';
 import { City } from './city';
 import { ApiResult } from '../apiResult';
+import { BaseFormEditComponent } from '../base.form-edit.component';
 
 @Component({
   selector: "app-city-edit",
   templateUrl: "./city-edit.component.html",
   styleUrls: ["./city-edit.component.css"]
 })
-export class CityEditComponent {
-  // view title
-  public title: string;
-
-  // form model
-  public form: FormGroup;
+export class CityEditComponent extends BaseFormEditComponent {
 
   // data model to update
   public city: City;
@@ -34,7 +30,9 @@ export class CityEditComponent {
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private http: HttpClient,
-    @Inject("BASE_URL") private baseUrl: string) { }
+    @Inject("BASE_URL") private baseUrl: string) {
+      super();
+    }
 
   public ngOnInit() {
     this.form = new FormGroup({
@@ -149,16 +147,8 @@ export class CityEditComponent {
     return false;
   }
 
-  public formFieldIsInvalid(fieldName: string): boolean {
-      let field = this.form.get(fieldName);
-      if (field?.invalid && (field?.dirty || field?.touched)) {
-        return true;
-      }
-      return false;
-  }
-
   public formFieldHasRequiredError(fieldName: string): boolean {
-    let field = this.form.get(fieldName);
+    let field = this.getControl(fieldName);
     if (field?.errors?.required)
       return true;
     return false;
