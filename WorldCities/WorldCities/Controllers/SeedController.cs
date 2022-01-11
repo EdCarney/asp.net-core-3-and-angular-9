@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using OfficeOpenXml;
 using WorldCities.Models.Data;
 
@@ -43,6 +44,19 @@ namespace WorldCities.Controllers
                 }
             }
 
+            return Ok();
+        }
+
+        public async Task<IActionResult> UpdateTotalCityCount()
+        {
+            var countries = applicationDbContext.Countries.Include(c => c.Cities);
+
+            foreach (var country in countries)
+            {
+                country.TotalCities = country.Cities.Count();
+            }
+
+            await applicationDbContext.SaveChangesAsync();
             return Ok();
         }
 
