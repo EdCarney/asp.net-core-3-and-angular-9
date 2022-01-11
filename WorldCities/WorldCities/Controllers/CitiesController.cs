@@ -91,6 +91,7 @@ namespace WorldCities.Controllers
         [HttpPost]
         public async Task<ActionResult<City>> PostCity(City city)
         {
+            city.Country = null;
             _context.Cities.Add(city);
             await _context.SaveChangesAsync();
 
