@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using System.Text.Json;
 using WorldCities.Models.Configuration;
 using WorldCities.Models.Data;
@@ -18,6 +19,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     var config = builder.Configuration;
     options.UseSqlServer(config.GetConnectionString("DefaultConnection"));
 });
+builder.Services.AddMvcCore().AddNewtonsoftJson(opt => opt.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
 
 var app = builder.Build();
 

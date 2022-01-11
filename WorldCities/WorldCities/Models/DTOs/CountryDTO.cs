@@ -1,7 +1,7 @@
-﻿using Newtonsoft.Json;
-namespace WorldCities.Models.Data
+using Newtonsoft.Json;
+namespace WorldCities.Models.DTOs
 {
-    public class Country
+    public class CountryDTO
     {
         /// <summary>
         /// Unique ID and primary key for the country
@@ -26,8 +26,8 @@ namespace WorldCities.Models.Data
         public string ISO3 { get; set; } = string.Empty;
 
         /// <summary>
-        /// A list containing all citites related to the country
+        /// The number of cities in the country
         /// </summary>
-        public virtual List<City> Cities { get; set; } = new();
+        public int TotalCities { get; set; }
     }
 }

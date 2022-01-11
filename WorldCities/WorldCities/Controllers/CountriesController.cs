@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WorldCities.Models.Data;
+using WorldCities.Models.DTOs;
 
 namespace WorldCities.Controllers
 {
@@ -23,7 +24,7 @@ namespace WorldCities.Controllers
 
         // GET: api/Countries
         [HttpGet]
-        public async Task<ApiResult<Country>> GetCountries(
+        public async Task<ApiResult<CountryDTO>> GetCountries(
             int pageIndex = 0,
             int pageSize = 10,
             string sortColumn = null,
@@ -31,8 +32,15 @@ namespace WorldCities.Controllers
             string filterColumn = null,
             string filterQuery = null)
         {
-            return await ApiResult<Country>.CreateAsync(
-                _context.Countries,
+            return await ApiResult<CountryDTO>.CreateAsync(
+                _context.Countries.Select(c => new CountryDTO
+                {
+                    Id = c.Id,
+                    Name = c.Name,
+                    ISO2 = c.ISO2,
+                    ISO3 = c.ISO3,
+                    TotalCities = c.Cities.Count()
+                }),
                 pageIndex,
                 pageSize,
                 sortColumn,
