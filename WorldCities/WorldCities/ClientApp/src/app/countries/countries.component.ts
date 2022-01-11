@@ -16,7 +16,7 @@ export class CountriesComponent {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  public displayedColumns: string[] = ['id', 'name', 'iso2', 'iso3'];
+  public displayedColumns: string[] = ['id', 'name', 'iso2', 'iso3', 'totalCities'];
   public countries: Country[];
   public dataSource: MatTableDataSource<Country>;
 
