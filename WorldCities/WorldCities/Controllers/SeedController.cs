@@ -47,19 +47,6 @@ namespace WorldCities.Controllers
             return Ok();
         }
 
-        public async Task<IActionResult> UpdateTotalCityCount()
-        {
-            var countries = applicationDbContext.Countries.Include(c => c.Cities);
-
-            foreach (var country in countries)
-            {
-                country.TotalCities = country.Cities.Count();
-            }
-
-            await applicationDbContext.SaveChangesAsync();
-            return Ok();
-        }
-
         private List<ExcelRange> GetRowsWithoutHeader(ExcelWorksheet worksheet)
         {
             int startRow = 2; // skipping header row 1
