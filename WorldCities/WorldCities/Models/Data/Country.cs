@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System.ComponentModel.DataAnnotations.Schema;
 namespace WorldCities.Models.Data
 {
     public class Country
@@ -28,6 +29,16 @@ namespace WorldCities.Models.Data
         /// <summary>
         /// A list containing all citites related to the country
         /// </summary>
+        [JsonIgnore]
         public virtual List<City> Cities { get; set; } = new();
+
+        [NotMapped]
+        public int TotalCities
+        { 
+            get => Cities.Any() ? Cities.Count() : _totalCities;
+            set => _totalCities = value;
+        }
+
+        private int _totalCities = 0;
     }
 }
