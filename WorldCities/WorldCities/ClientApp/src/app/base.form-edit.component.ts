@@ -53,6 +53,14 @@ export class BaseFormEditComponent {
     return null;
   }
 
+  public formFieldOutOfRange(fieldName: string, rangeMin: number, rangeMax: number): string | null {
+    let field = this.getControl(fieldName);
+    if (field?.errors?.min || field?.errors?.max) {
+      return this.getFieldLabel(fieldName) + " must be in range " + rangeMin + " to " + rangeMax;
+    }
+    return null;
+  }
+
   public getFieldLabel(fieldName: string): string {
     let label = document.getElementById(fieldName + "Label")?.innerHTML;
     if (label) {

@@ -26,6 +26,12 @@ export class CityEditComponent extends BaseFormEditComponent {
   // the city ID; null if creating new
   public id?: number;
 
+  // lat/lon min/max
+  public readonly maxLat: number = 90;
+  public readonly minLat: number = -90;
+  public readonly maxLon: number = 180;
+  public readonly minLon: number = -180;
+
   constructor(
     private activatedRoute: ActivatedRoute,
     private router: Router,
@@ -39,10 +45,14 @@ export class CityEditComponent extends BaseFormEditComponent {
       name: new FormControl('', Validators.required),
       lat: new FormControl('', [
         Validators.required,
-        Validators.pattern('^[-]?[0-9]+(\.[0-9]{1,4})?')]),
+        Validators.pattern('^[-]?[0-9]+(\.[0-9]{1,4})?'),
+        Validators.min(this.minLat),
+        Validators.max(this.maxLat)]),
       lon: new FormControl('', [
         Validators.required,
-        Validators.pattern('^[-]?[0-9]+(\.[0-9]{1,4})?')]),
+        Validators.pattern('^[-]?[0-9]+(\.[0-9]{1,4})?'),
+        Validators.min(this.minLon),
+        Validators.max(this.maxLon)]),
       countryId: new FormControl('', Validators.required)
     }, null, this.isDuplicateCity());
     this.loadCity();

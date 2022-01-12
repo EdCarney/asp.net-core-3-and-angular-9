@@ -36,6 +36,9 @@
         <div *ngIf="formFieldDoesNotMatchPattern('lat', 'positive or nagative numbers with up to 4 decimals') as errorMsg">
           {{ errorMsg }}
         </div>
+        <div *ngIf="formFieldOutOfRange('lat', minLat, maxLat) as errorMsg">
+          {{ errorMsg }}
+        </div>
       </div>
     </div>
 
@@ -44,12 +47,14 @@
       <label id="lonLabel" for="lon">City Longitude:</label>
       <br />
       <input type="text" id="lon" formControlName="lon" required placeholder="Longitude..." class="form-control" />
-
       <div *ngIf="formFieldHasError('lon')" class="text-danger small">
         <div *ngIf="formFieldHasRequiredError('lon') as errorMsg">
           {{ errorMsg }}
         </div>
         <div *ngIf="formFieldDoesNotMatchPattern('lon', 'positive or nagative numbers with up to 4 decimals') as errorMsg">
+          {{ errorMsg }}
+        </div>
+        <div *ngIf="formFieldOutOfRange('lon', minLon, maxLon) as errorMsg">
           {{ errorMsg }}
         </div>
       </div>
