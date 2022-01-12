@@ -32,6 +32,9 @@ namespace WorldCities.Models.Data
         [JsonIgnore]
         public virtual List<City> Cities { get; set; } = new();
 
+        /// <summary>
+        /// Count of the child cities for the country
+        /// </summary>
         [NotMapped]
         public int TotalCities
         { 

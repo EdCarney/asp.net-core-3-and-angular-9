@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace WorldCities.Models.Data
 {
@@ -48,6 +44,13 @@ namespace WorldCities.Models.Data
         /// <summary>
         /// The parent country related to this city
         /// </summary>
+        [JsonIgnore]
         public virtual Country Country { get; set; } = new();
+
+        /// <summary>
+        /// Name of the parent country related to this city
+        /// </summary>
+        [NotMapped]
+        public string CountryName { get; set; } = string.Empty;
     }
 }
