@@ -1,11 +1,10 @@
 import { Component, Inject, ViewChild } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort, SortDirection } from '@angular/material/sort';
 
+import { CountryService } from './country.service';
 import { Country } from './country';
-import { ApiResult } from '../apiResult';
 
 @Component({
   selector: "app-countries",
@@ -29,8 +28,7 @@ export class CountriesComponent {
   private filteringEventCount: number = 0;
 
   constructor(
-    private http: HttpClient,
-    @Inject('BASE_URL') private baseUrl: string) { }
+    private countryService: CountryService) {}
 
   ngOnInit() {
     this.loadData();
@@ -50,11 +48,14 @@ export class CountriesComponent {
   }
 
   public getData(event: PageEvent): void {
-    let url: string = this.baseUrl + "api/countries";
-    let params: HttpParams = this.getHttpParams(event);
-
-    this.http.get<ApiResult<Country>>(url, { params })
-      .subscribe(
+    this.countryService.getData<Country>(
+      event.pageIndex,
+      event.pageSize,
+      typeof this.sort === "undefined" ? "" : this.sort.active,
+      typeof this.sort === "undefined" ? "" : this.sort.direction,
+      this.defaultFilterColumn,
+      this.filterQuery
+    ).subscribe(
         result => {
           this.paginator.length = result.totalCount;
           this.paginator.pageIndex = result.pageIndex;
@@ -68,24 +69,6 @@ export class CountriesComponent {
           this.decrementFilterCount();
         }
     );
-  }
-
-  private getHttpParams(pageEvent: PageEvent): HttpParams {
-    let params: HttpParams = new HttpParams()
-      .set("pageIndex", pageEvent.pageIndex.toString())
-      .set("pageSize", pageEvent.pageSize.toString())
-
-    if (this.sort) {
-      params = params.set("sortColumn", this.sort.active)
-        .set("sortOrder", this.sort.direction);
-    }
-
-    if (this.filterQuery !== "") {
-      params = params.set("filterColumn", this.defaultFilterColumn)
-        .set("filterQuery", this.filterQuery as string);
-    }
-
-    return params;
   }
 
   private countriesLoaded(): boolean {
