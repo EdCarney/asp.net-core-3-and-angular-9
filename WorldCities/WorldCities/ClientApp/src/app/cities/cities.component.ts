@@ -1,12 +1,10 @@
-import { Component, Inject, Input, ViewChild } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { Component, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort, SortDirection } from '@angular/material/sort';
-import { MatInput } from '@angular/material/input';
 
+import { CityService } from './city.service';
 import { City } from './city';
-import { ApiResult } from '../apiResult';
 
 @Component({
   selector: 'app-cities',
@@ -30,9 +28,7 @@ export class CitiesComponent {
   private filteringEventCount: number = 0;
 
   constructor(
-    private http: HttpClient,
-    @Inject('BASE_URL') private baseUrl: string) {
-  }
+    private cityService: CityService) {}
 
   ngOnInit() {
     this.loadData();
@@ -52,11 +48,14 @@ export class CitiesComponent {
   }
 
   public getData(event: PageEvent): void {
-    let url: string = this.baseUrl + "api/cities";
-    let params: HttpParams = this.getHttpParams(event);
-
-    this.http.get<ApiResult<City>>(url, { params })
-      .subscribe(
+    this.cityService.getData<City>(
+      event.pageIndex,
+      event.pageSize,
+      typeof this.sort === "undefined" ? "" : this.sort.active,
+      typeof this.sort === "undefined" ? "" : this.sort.direction,
+      this.defaultFilterColumn,
+      this.filterQuery
+    ).subscribe(
         result => {
           this.paginator.length = result.totalCount;
           this.paginator.pageIndex = result.pageIndex;
@@ -70,24 +69,6 @@ export class CitiesComponent {
           this.decrementFilterCount()
         }
     );
-  }
-
-  private getHttpParams(pageEvent: PageEvent): HttpParams {
-    let params: HttpParams = new HttpParams()
-      .set("pageIndex", pageEvent.pageIndex.toString())
-      .set("pageSize", pageEvent.pageSize.toString())
-
-    if (this.sort) {
-      params = params.set("sortColumn", this.sort.active)
-        .set("sortOrder", this.sort.direction);
-    }
-
-    if (this.filterQuery !== "") {
-      params = params.set("filterColumn", this.defaultFilterColumn)
-        .set("filterQuery", this.filterQuery as string);
-    }
-
-    return params;
   }
 
   private citiesLoaded(): boolean {
